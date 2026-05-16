@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的健康集點挑戰</title>
+    <title>健康集點挑戰 V3.0</title>
     
     <link rel="apple-touch-icon" href="image.png">
     <link rel="icon" href="image.png">
@@ -19,6 +19,8 @@
             --primary-light: #cbf3f0;
             --accent-color: #ffbf69;
             --border-color: #e0e0e0;
+            --water-color: #4361ee;
+            --water-light: #dbe1f9;
         }
         
         body {
@@ -29,7 +31,7 @@
             padding: 15px;
             display: flex;
             justify-content: center;
-            padding-bottom: 90px; /* 留空間給底部的功能按鈕 */
+            padding-bottom: 95px; /* 留空間給底部的功能按鈕 */
         }
 
         .container {
@@ -73,7 +75,7 @@
         .prize-btn.grand-prize { background: #e71d36; }
         .prize-btn.grand-prize:disabled { background: #ccc; }
 
-        /* 📱 底部懸浮功能選單（像真App導覽列） */
+        /* 📱 底部懸浮功能選單 */
         .bottom-nav {
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
             width: 100%; max-width: 480px; background: white;
@@ -82,9 +84,9 @@
         }
         .nav-item {
             border: none; background: none; display: flex; flex-direction: column;
-            align-items: center; font-size: 11px; font-weight: bold; color: #666; cursor: pointer;
+            align-items: center; font-size: 10px; font-weight: bold; color: #666; cursor: pointer; width: 22%;
         }
-        .nav-item span { font-size: 24px; margin-bottom: 4px; }
+        .nav-item span { font-size: 22px; margin-bottom: 4px; }
         .nav-item:active { transform: scale(0.9); }
 
         /* 🪟 彈出式功能視窗 (Modal) */
@@ -100,7 +102,7 @@
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .close-modal { position: absolute; top: 15px; right: 15px; font-size: 20px; border: none; background: none; cursor: pointer; color: #999; }
 
-        /* 體重區塊特有樣式 */
+        /* 體重區塊樣式 */
         .weight-card-box { width: 100%; height: 260px; border: 2px solid var(--border-color); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; margin-bottom: 15px; }
         .weight-photo-area { height: 60%; background: #f8fafc; border-bottom: 1px dashed var(--border-color); display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .weight-photo-area img { width: 100%; height: 100%; object-fit: cover; }
@@ -114,16 +116,27 @@
         .weight-action-btn { background: var(--primary-color); color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
         .weight-log-text { font-size: 13px; color: #666; background: #f1f5f9; padding: 8px; border-radius: 10px; text-align: center; }
 
-        /* 輸入與拍照通用樣式 */
+        /* 📸 飲食三餐分類樣式 */
+        .meal-box { border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 12px; background: #fafafa; }
+        .meal-title { font-weight: bold; font-size: 15px; color: #444; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;}
+        .meal-upload-btn { background: #6c757d; color: white; padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; }
+        .meal-preview { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+        .meal-img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
+
+        /* 💧 飲水紀錄區塊樣式 */
+        .water-progress-box { background: #f0f3ff; border-radius: 15px; padding: 15px; text-align: center; margin-bottom: 15px; border: 1px solid var(--water-light); }
+        .water-huge-text { font-size: 32px; font-weight: bold; color: var(--water-color); margin: 5px 0; }
+        .water-target-text { font-size: 13px; color: #666; margin-bottom: 10px; }
+        .water-btn-group { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; }
+        .water-btn { background: var(--water-color); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; }
+        .water-btn:active { transform: scale(0.95); }
+        .water-input-box { display: flex; gap: 6px; justify-content: center; align-items: center; }
+        .water-input { width: 80px; padding: 6px; border: 1px solid var(--border-color); border-radius: 6px; text-align: center; }
+
+        /* 輸入與習慣通用樣式 */
         .input-box { display: flex; gap: 8px; margin-bottom: 12px; }
         .input-style { flex: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 10px; font-size: 14px; }
         .action-btn { background: var(--primary-color); color: white; border: none; padding: 0 15px; border-radius: 10px; font-weight: bold; }
-        .photo-area { border: 2px dashed var(--primary-color); padding: 15px; border-radius: 15px; text-align: center; background: #fafafa;}
-        .upload-btn { background: var(--primary-color); color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; display: inline-block; font-weight: bold;}
-        .preview-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
-        .preview-img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
-
-        /* 習慣列表樣式 */
         .challenge-list { display: flex; flex-direction: column; gap: 10px; }
         .challenge-item { display: flex; align-items: center; padding: 10px 15px; border: 2px solid var(--border-color); border-radius: 12px; cursor: pointer; user-select: none; }
         .challenge-item input[type="checkbox"] { display: none; }
@@ -184,6 +197,7 @@
 <div class="bottom-nav">
     <button class="nav-item" onclick="openModal('modalWeight')"><span>⚖️</span>體重打卡</button>
     <button class="nav-item" onclick="openModal('modalFood')"><span>📸</span>飲食紀錄</button>
+    <button class="nav-item" onclick="openModal('modalWater')"><span>💧</span>飲水紀錄</button>
     <button class="nav-item" onclick="openModal('modalHabit')"><span>✅</span>微習慣</button>
 </div>
 
@@ -214,12 +228,58 @@
 <div id="modalFood" class="modal" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content">
         <button class="close-modal" onclick="closeModal('modalFood')">✕</button>
-        <h2>📸 今日飲食打卡記錄 (每張+1點)</h2>
-        <div class="photo-area">
-            <label class="upload-btn">📷 拍攝/上傳今日餐點
-                <input type="file" accept="image/*" style="display:none" onchange="uploadFood(this)">
-            </label>
-            <div class="preview-container" id="photoPreview"></div>
+        <h2>📸 今日飲食紀錄 (每餐上傳+1點)</h2>
+        
+        <div class="meal-box">
+            <div class="meal-title">
+                <span>🌅 早餐紀錄</span>
+                <label class="meal-upload-btn">拍攝上傳<input type="file" accept="image/*" style="display:none" onchange="uploadMeal('breakfast', this)"></label>
+            </div>
+            <div class="meal-preview" id="breakfastPreview"></div>
+        </div>
+
+        <div class="meal-box">
+            <div class="meal-title">
+                <span>☀️ 午餐紀錄</span>
+                <label class="meal-upload-btn">拍攝上傳<input type="file" accept="image/*" style="display:none" onchange="uploadMeal('lunch', this)"></label>
+            </div>
+            <div class="meal-preview" id="lunchPreview"></div>
+        </div>
+
+        <div class="meal-box">
+            <div class="meal-title">
+                <span>🌌 晚餐紀錄</span>
+                <label class="meal-upload-btn">拍攝上傳<input type="file" accept="image/*" style="display:none" onchange="uploadMeal('dinner', this)"></label>
+            </div>
+            <div class="meal-preview" id="dinnerPreview"></div>
+        </div>
+    </div>
+</div>
+
+<div id="modalWater" class="modal" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal('modalWater')">✕</button>
+        <h2>💧 每日飲水追蹤 (達標+1點)</h2>
+        <div class="water-progress-box">
+            <div style="font-size: 14px; color: #555;">今日已喝水量</div>
+            <div class="water-huge-text"><span id="currentWater">0</span> / <span id="targetWaterDisplay">2000</span> cc</div>
+            <div class="water-target-text" id="waterGoalStatus">目標達成率: 0%</div>
+            
+            <div class="water-btn-group">
+                <button class="water-btn" style="background:#5c7aff" onclick="addWater(250)">＋250cc 🥛</button>
+                <button class="water-btn" style="background:#3f37c9" onclick="addWater(500)">＋500cc 🍾</button>
+            </div>
+
+            <div class="water-input-box">
+                <input type="number" id="waterCustomInput" class="water-input" placeholder="自訂 cc">
+                <button class="water-btn" style="background:#4cc9f0; color:#333;" onclick="addWaterCustom()">喝水</button>
+            </div>
+        </div>
+
+        <div class="input-box" style="margin-top: 15px; background: #f8fafc; padding: 10px; border-radius: 10px; border: 1px dashed #ccc;">
+            <span style="font-size:12px; color:#666; align-self:center;">⚙️ 修改每日目標：</span>
+            <input type="number" id="waterTargetInput" style="width:70px; padding:4px;" value="2000">
+            <button onclick="updateWaterTarget()" style="font-size:12px; padding:4px 8px;">儲存</button>
         </div>
     </div>
 </div>
@@ -233,13 +293,11 @@
             <button class="action-btn" onclick="addCustomTask()">新增</button>
         </div>
         <div class="challenge-list" id="challengeList">
-            <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">📸 吃飯前有拍照記錄</span></label>
             <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">🥬 飲食中有吃一樣青菜</span></label>
             <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">❌ 今天沒有喝含糖飲料</span></label>
             <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">🐶 帶小狗一起走路運動</span></label>
             <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">🚧 去現場少搭一層電梯</span></label>
             <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">🏢 回工務所走樓梯（不搭電梯）</span></label>
-            <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">💧 喝水量達到 2000cc</span></label>
         </div>
     </div>
 </div>
@@ -249,15 +307,22 @@
     let lastWeight = localStorage.getItem('weight_loss_last_weight') || "";
     let lastWeightDate = localStorage.getItem('weight_loss_last_date') || "";
     let customTasks = JSON.parse(localStorage.getItem('weight_loss_custom_tasks')) || [];
+    
+    // 飲水資料儲存
+    let waterCurrent = parseInt(localStorage.getItem('water_current')) || 0;
+    let waterTarget = parseInt(localStorage.getItem('water_target')) || 2000;
+    let waterEarnedToday = localStorage.getItem('water_earned_today') === 'true'; // 今天是否因喝水拿過點數
 
     const normalQuotes = ["不錯喔！今天腳步挺輕盈的嘛！🐾","哎喲？今天竟然有堅持！🧐","工務所的樓梯都被你踩扁了，繼續保持！🏢","有動就贏過躺著的人了！🔥","很好，今天對得起你家小狗了。🐶"];
-    const foodQuotes = ["📸 拍了照就要對食物負責啊！", "青菜吃進去，健康帶得走！🥬", "沒喝飲料？省下大卡又省錢！💰"];
+    const foodQuotes = ["📸 拍了照就要對食物負責啊！", "三餐穩定控制，體態完美轉變！✨", "有記錄就是成功的開始！🔥"];
 
     function init() {
         populateDateDropdowns();
         renderGrid();
         renderCustomTasks();
         updateUI();
+        updateWaterUI();
+        
         if(lastWeight) document.getElementById('weightLogDisplay').innerText = `歷史紀錄：${lastWeight} kg (${lastWeightDate})`;
         const savedPhoto = localStorage.getItem('weight_loss_last_photo');
         if(savedPhoto) {
@@ -267,7 +332,7 @@
         }
     }
 
-    /* 彈出視窗開關控制 */
+    /* 彈出視窗控制 */
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     function closeModalOnBackdrop(e) { if(e.target.classList.contains('modal')) e.target.style.display = 'none'; }
@@ -280,6 +345,7 @@
         for(let i = 1; i <= 31; i++) { let opt = document.createElement('option'); opt.value = i; opt.innerText = i + " 日"; if(i === currentDay) opt.selected = true; daySelect.appendChild(opt); }
     }
 
+    /* 體重打卡 */
     function previewWeightPhoto(input) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
@@ -304,6 +370,69 @@
         setTimeout(() => { checkMilestone(points, `⚖️ 體重打卡成功！已連動集點卡，獲得 1 點！`); }, 300);
     }
 
+    /* 三餐飲食紀錄 */
+    function uploadMeal(type, input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img'); img.src = e.target.result; img.classList.add('meal-img');
+                document.getElementById(`${type}Preview`).appendChild(img);
+                points += 1; updateUI(); closeModal('modalFood');
+                const randomFoodQuote = foodQuotes[Math.floor(Math.random() * foodQuotes.length)];
+                setTimeout(() => { checkMilestone(points, `📸 飲食打卡成功！已連動集點卡！\n\n「${randomFoodQuote}」`); }, 300);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    /* 💧 飲水功能邏輯 */
+    function updateWaterUI() {
+        document.getElementById('currentWater').innerText = waterCurrent;
+        document.getElementById('targetWaterDisplay').innerText = waterTarget;
+        document.getElementById('waterTargetInput').value = waterTarget;
+        
+        let percent = Math.min(100, Math.floor((waterCurrent / waterTarget) * 100));
+        document.getElementById('waterGoalStatus').innerText = `目標達成率: ${percent}% ${waterEarnedToday ? '🎉 今日已達標加點' : ''}`;
+        
+        localStorage.setItem('water_current', waterCurrent);
+        localStorage.setItem('water_target', waterTarget);
+        localStorage.setItem('water_earned_today', waterEarnedToday);
+    }
+
+    function addWater(amount) {
+        waterCurrent += amount;
+        checkWaterGoal();
+        updateWaterUI();
+    }
+
+    function addWaterCustom() {
+        const val = parseInt(document.getElementById('waterCustomInput').value.trim());
+        if(!val || isNaN(val)) return;
+        waterCurrent += val;
+        document.getElementById('waterCustomInput').value = '';
+        checkWaterGoal();
+        updateWaterUI();
+    }
+
+    function updateWaterTarget() {
+        const val = parseInt(document.getElementById('waterTargetInput').value.trim());
+        if(!val || isNaN(val)) return;
+        waterTarget = val;
+        updateWaterUI();
+        alert(`每日飲水目標已修改為 ${val} cc！`);
+    }
+
+    function checkWaterGoal() {
+        if (waterCurrent >= waterTarget && !waterEarnedToday) {
+            waterEarnedToday = true;
+            points += 1;
+            updateUI();
+            closeModal('modalWater');
+            setTimeout(() => { checkMilestone(points, `💧 太棒了！今天喝水量已達標（${waterTarget}cc）！\n\n集點卡自動幫你加 1 點！⭐`); }, 300);
+        }
+    }
+
+    /* 主頁集點卡渲染 */
     function renderGrid() {
         const grid = document.getElementById('stampGrid'); grid.innerHTML = '';
         let currentCardPoints = points % 30; if (currentCardPoints === 0 && points > 0) currentCardPoints = 30;
@@ -323,6 +452,7 @@
         document.getElementById('btnPrize3').disabled = points < 30;
     }
 
+    /* 微習慣邏輯 */
     function addCustomTask() {
         const taskText = document.getElementById('customTaskInput').value.trim(); if(!taskText) return;
         customTasks.push({ text: taskText, checked: false });
@@ -360,20 +490,6 @@
         } else { item.closest('.challenge-item').classList.remove('checked'); points = Math.max(0, points - 1); updateUI(); }
     }
 
-    function uploadFood(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img'); img.src = e.target.result; img.classList.add('preview-img');
-                document.getElementById('photoPreview').appendChild(img);
-                points += 1; updateUI(); closeModal('modalFood');
-                const randomFoodQuote = foodQuotes[Math.floor(Math.random() * foodQuotes.length)];
-                setTimeout(() => { checkMilestone(points, `📸 飲食打卡成功！已連動集點卡！\n\n「${randomFoodQuote}」`); }, 300);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
     function checkMilestone(currentPoints, defaultMessage) {
         if (currentPoints === 10) { alert(`🎉【10 點里程碑！】\n\n主頁的冰棒兌換按鈕解鎖囉！🍦`); } 
         else if (currentPoints === 20) { alert(`🔥【20 點大進展！】\n\n快樂手搖飲在等你兌換了！🍹`); } 
@@ -385,11 +501,21 @@
         if (points >= cost) { if (confirm(`確定要消耗 ${cost} 點兌換【${prizeName}】嗎？`)) { points -= cost; alert(`🎉 兌換成功！集點卡已扣除點數。`); updateUI(); } }
     }
 
+    /* 開啟新的一天：清除今日喝水、餐點照片、習慣勾選 */
     function resetNewDay() {
-        if (confirm('要開啟新的一天嗎？(會清空彈出視窗內的今日勾選與飲食照片，保留集點與體重)')) {
+        if (confirm('要開啟新的一天嗎？(會清空飲水、三餐照片、今日勾選，保留總集點與體重紀錄)')) {
             const checkboxes = document.querySelectorAll('.todo-check');
             checkboxes.forEach(box => { box.checked = false; box.closest('.challenge-item').classList.remove('checked'); });
-            document.getElementById('photoPreview').innerHTML = '';
+            
+            document.getElementById('breakfastPreview').innerHTML = '';
+            document.getElementById('lunchPreview').innerHTML = '';
+            document.getElementById('dinnerPreview').innerHTML = '';
+            
+            // 重置飲水
+            waterCurrent = 0;
+            waterEarnedToday = false;
+            updateWaterUI();
+
             customTasks = []; localStorage.removeItem('weight_loss_custom_tasks');
             renderCustomTasks(); updateUI();
         }
