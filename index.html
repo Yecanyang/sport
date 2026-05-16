@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的健康集點挑戰</title>
     
-    <!-- 📱 手機桌面自訂圖示與全螢幕 App 設定 -->
     <link rel="apple-touch-icon" href="image.png">
     <link rel="icon" href="image.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,7 +15,7 @@
             --bg-color: #f4f7f6;
             --card-bg: #ffffff;
             --text-color: #333333;
-            --primary-color: #2ec4b6; /* 減重主題：薄荷綠 */
+            --primary-color: #2ec4b6; /* 薄荷綠 */
             --primary-light: #cbf3f0;
             --accent-color: #ffbf69;
             --border-color: #e0e0e0;
@@ -30,6 +29,7 @@
             padding: 15px;
             display: flex;
             justify-content: center;
+            padding-bottom: 90px; /* 留空間給底部的功能按鈕 */
         }
 
         .container {
@@ -43,10 +43,10 @@
         }
 
         h1 { text-align: center; margin-bottom: 5px; color: #222; font-size: 24px; }
-        h2 { font-size: 18px; margin: 25px 0 10px 0; color: #444; display: flex; align-items: center; gap: 8px;}
+        h2 { font-size: 18px; margin: 15px 0 10px 0; color: #444; }
         .subtitle { text-align: center; font-size: 13px; color: #888; margin-bottom: 20px; }
 
-        /* 集點卡樣式 */
+        /* 👑 主頁集點卡樣式 */
         .reward-card {
             background: linear-gradient(135deg, #2ec4b6, #20a498);
             color: white;
@@ -65,7 +65,7 @@
         }
         .point-slot.active { background: var(--accent-color); color: #333; box-shadow: 0 0 8px var(--accent-color); font-size: 16px; }
 
-        /* 獎勵兌換區 */
+        /* 🎁 獎勵兌換區 */
         .prize-container { display: flex; flex-direction: column; gap: 10px; background: #f9f9f9; padding: 12px; border-radius: 12px; }
         .prize-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: white; border-radius: 8px; border: 1px solid var(--border-color); }
         .prize-btn { background: #ff9f1c; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
@@ -73,70 +73,70 @@
         .prize-btn.grand-prize { background: #e71d36; }
         .prize-btn.grand-prize:disabled { background: #ccc; }
 
-        /* 長方形體重打卡牆 */
-        .weight-card-box {
-            width: 100%;
-            height: 320px;
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            background: #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-            margin-bottom: 15px;
+        /* 📱 底部懸浮功能選單（像真App導覽列） */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 100%; max-width: 480px; background: white;
+            display: flex; justify-content: space-around; padding: 10px 0;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.08); border-radius: 20px 20px 0 0; z-index: 999;
         }
-        .weight-photo-area {
-            height: 66.66%;
-            background: #f8fafc;
-            border-bottom: 1px dashed var(--border-color);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+        .nav-item {
+            border: none; background: none; display: flex; flex-direction: column;
+            align-items: center; font-size: 11px; font-weight: bold; color: #666; cursor: pointer;
         }
-        .weight-photo-area img { width: 100%; height: 100%; object-fit: cover; }
-        .upload-placeholder { text-align: center; color: #94a3b8; font-size: 14px; font-weight: 500; }
-        .upload-placeholder span { font-size: 32px; display: block; margin-bottom: 5px; }
-        .weight-info-area { height: 33.33%; padding: 10px; box-sizing: border-box; background: #fff; display: flex; flex-direction: column; justify-content: space-between; }
-        .date-selectors { display: flex; gap: 5px; }
-        .date-selectors select { flex: 1; padding: 4px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 12px; background: #fff; }
-        .weight-input-row { display: flex; gap: 8px; align-items: center; }
-        .weight-input-style { flex: 1; padding: 8px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; }
-        .weight-action-btn { background: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
-        .weight-log-text { font-size: 13px; color: #666; background: #f1f5f9; padding: 8px; border-radius: 10px; text-align: center; font-weight: 500; }
+        .nav-item span { font-size: 24px; margin-bottom: 4px; }
+        .nav-item:active { transform: scale(0.9); }
 
-        /* 輸入區塊通用 */
+        /* 🪟 彈出式功能視窗 (Modal) */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-content {
+            background: white; width: 90%; max-width: 420px; border-radius: 20px;
+            padding: 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;
+            position: relative; animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .close-modal { position: absolute; top: 15px; right: 15px; font-size: 20px; border: none; background: none; cursor: pointer; color: #999; }
+
+        /* 體重區塊特有樣式 */
+        .weight-card-box { width: 100%; height: 260px; border: 2px solid var(--border-color); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; margin-bottom: 15px; }
+        .weight-photo-area { height: 60%; background: #f8fafc; border-bottom: 1px dashed var(--border-color); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .weight-photo-area img { width: 100%; height: 100%; object-fit: cover; }
+        .upload-placeholder { text-align: center; color: #94a3b8; font-size: 13px; }
+        .upload-placeholder span { font-size: 28px; display: block; margin-bottom: 3px; }
+        .weight-info-area { height: 40%; padding: 8px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
+        .date-selectors { display: flex; gap: 5px; }
+        .date-selectors select { flex: 1; padding: 4px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 12px; }
+        .weight-input-row { display: flex; gap: 8px; align-items: center; }
+        .weight-input-style { flex: 1; padding: 6px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; }
+        .weight-action-btn { background: var(--primary-color); color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .weight-log-text { font-size: 13px; color: #666; background: #f1f5f9; padding: 8px; border-radius: 10px; text-align: center; }
+
+        /* 輸入與拍照通用樣式 */
         .input-box { display: flex; gap: 8px; margin-bottom: 12px; }
         .input-style { flex: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 10px; font-size: 14px; }
-        .action-btn { background: var(--primary-color); color: white; border: none; padding: 0 15px; border-radius: 10px; font-weight: bold; cursor: pointer; }
-
-        /* 照片上傳區 */
-        .photo-area { border: 2px dashed var(--primary-color); padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 20px; background: #fafafa;}
-        .upload-btn { background: var(--primary-color); color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; display: inline-block; font-weight: bold; margin-bottom: 10px;}
+        .action-btn { background: var(--primary-color); color: white; border: none; padding: 0 15px; border-radius: 10px; font-weight: bold; }
+        .photo-area { border: 2px dashed var(--primary-color); padding: 15px; border-radius: 15px; text-align: center; background: #fafafa;}
+        .upload-btn { background: var(--primary-color); color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; display: inline-block; font-weight: bold;}
         .preview-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
         .preview-img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
 
-        /* 挑戰列表 */
-        .challenge-list { display: flex; flex-direction: column; gap: 12px; }
-        .challenge-item { display: flex; align-items: center; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: 12px; cursor: pointer; transition: all 0.2s ease; user-select: none; }
+        /* 習慣列表樣式 */
+        .challenge-list { display: flex; flex-direction: column; gap: 10px; }
+        .challenge-item { display: flex; align-items: center; padding: 10px 15px; border: 2px solid var(--border-color); border-radius: 12px; cursor: pointer; user-select: none; }
         .challenge-item input[type="checkbox"] { display: none; }
-        .custom-checkbox { width: 20px; height: 20px; border: 2px solid #bbb; border-radius: 6px; margin-right: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .custom-checkbox::after { content: "✓"; color: white; font-weight: bold; display: none; font-size: 12px; }
-        .challenge-text { font-size: 15px; font-weight: 500; }
-
+        .custom-checkbox { width: 18px; height: 18px; border: 2px solid #bbb; border-radius: 50%; margin-right: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .custom-checkbox::after { content: "✓"; color: white; font-weight: bold; display: none; font-size: 11px; }
+        .challenge-text { font-size: 14px; font-weight: 500; }
         .challenge-item.checked { border-color: var(--primary-color); background-color: var(--primary-light); }
         .challenge-item.checked .custom-checkbox { background-color: var(--primary-color); border-color: var(--primary-color); }
         .challenge-item.checked .custom-checkbox::after { display: block; }
         .challenge-item.checked .challenge-text { color: #0f6057; text-decoration: line-through; opacity: 0.7; }
 
-        .btn-reset { display: block; width: 100%; padding: 12px; background-color: #333; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 25px; }
-        
-        /* 備份區域 */
-        .backup-area { margin-top: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 12px; background-color: #fcfcfc; text-align: center;}
-        .backup-input { width: 70%; padding: 6px; border: 1px solid #ccc; border-radius: 6px; margin-right: 5px; font-size: 12px;}
-        .backup-btn { background-color: #666; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;}
+        .btn-reset { display: block; width: 100%; padding: 10px; background-color: #333; color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .backup-area { margin-top: 25px; padding: 12px; border: 1px solid #ddd; border-radius: 12px; background-color: #fcfcfc; text-align: center; font-size: 12px;}
     </style>
 </head>
 <body>
@@ -145,7 +145,6 @@
     <h1>🔥 減重冒險集點卡</h1>
     <div class="subtitle">不求完美，只求留在賽道上</div>
 
-    <!-- 集點卡區塊 -->
     <div class="reward-card">
         <div class="reward-header">
             <span>我的冒險集點卡 (30點一輪)</span>
@@ -154,83 +153,93 @@
         <div class="grid-container" id="stampGrid"></div>
     </div>
 
-    <!-- 獎勵兌換區 -->
     <h2>🎁 點數兌換獎勵</h2>
     <div class="prize-container">
         <div class="prize-item">
             <span>🍦 獎勵自己一支冰棒</span>
-            <button class="prize-btn" id="btnPrize1" onclick="redeem(10, '一支冰棒')">10 點兌換</button>
+            <button class="prize-btn" id="btnPrize1" onclick="redeem(10, '一支冰棒')">10 點</button>
         </div>
         <div class="prize-item">
             <span>🍹 爽喝一杯快樂飲料</span>
-            <button class="prize-btn" id="btnPrize2" onclick="redeem(20, '一杯飲料')">20 點兌換</button>
+            <button class="prize-btn" id="btnPrize2" onclick="redeem(20, '一杯飲料')">20 點</button>
         </div>
         <div class="prize-item" style="border: 2px solid #e71d36; background-color: #fff5f5;">
             <span style="font-weight: bold; color: #e71d36;">🥩 終極大獎：爽吃一頓大餐！</span>
-            <button class="prize-btn grand-prize" id="btnPrize3" onclick="redeem(30, '一頓終極大餐')">30 點兌換</button>
+            <button class="prize-btn grand-prize" id="btnPrize3" onclick="redeem(30, '一頓終極大餐')">30 點</button>
         </div>
-    </div>
-
-    <!-- 每週體重記錄區 -->
-    <h2>⚖️ 每週體重影像打卡 (每週+1點)</h2>
-    <div class="weight-card-box">
-        <div class="weight-photo-area" onclick="document.getElementById('weightPhotoInput').click()">
-            <input type="file" id="weightPhotoInput" accept="image/*" style="display:none" onchange="previewWeightPhoto(this)">
-            <div class="upload-placeholder" id="weightPhotoPlaceholder">
-                <span>📸</span>點擊上傳本週身材/體脂計照片
-            </div>
-            <img id="weightPhotoImg" src="" style="display:none;">
-        </div>
-        <div class="weight-info-area">
-            <div class="date-selectors">
-                <select id="selectYear"></select>
-                <select id="selectMonth"></select>
-                <select id="selectDay"></select>
-            </div>
-            <div class="weight-input-row">
-                <input type="number" step="0.1" id="weightInput" class="weight-input-style" placeholder="輸入體重 (kg)">
-                <button class="weight-action-btn" onclick="saveWeight()">打卡記錄</button>
-            </div>
-        </div>
-    </div>
-    <div class="weight-log-text" id="weightLogDisplay">尚未記錄體重歷史</div>
-
-    <!-- 飲食拍照區 -->
-    <h2>📸 今日飲食打卡記錄 (每張+1點)</h2>
-    <div class="photo-area">
-        <label class="upload-btn">
-            📷 拍攝/上傳今日餐點
-            <input type="file" accept="image/*" style="display:none" onchange="uploadFood(this)">
-        </label>
-        <div class="preview-container" id="photoPreview"></div>
-    </div>
-
-    <!-- 每日挑戰區 -->
-    <h2>✅ 每日微習慣打卡 (每項+1點)</h2>
-    <div class="input-box">
-        <input type="text" id="customTaskInput" class="input-style" placeholder="➕ 輸入今天的自訂挑戰項目...">
-        <button class="action-btn" onclick="addCustomTask()">新增</button>
-    </div>
-
-    <div class="challenge-list" id="challengeList">
-        <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">📸 吃飯前有拍照記錄</span></label>
-        <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">🥬 飲食中有吃一樣青菜</span></label>
-        <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">❌ 今天沒有喝含糖飲料</span></label>
-        <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">🐶 帶小狗一起走路運動</span></label>
-        <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">🚧 去現場少搭一層電梯</span></label>
-        <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">🏢 回工務所走樓梯（不搭電梯）</span></label>
-        <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">💧 喝水量達到 2000cc</span></label>
     </div>
 
     <button class="btn-reset" onclick="resetNewDay()">☀️ 開啟新的一天 (保留集點與體重)</button>
-
-    <!-- 備份區 -->
+    
     <div class="backup-area">
-        <div style="font-size: 13px; font-weight: bold; margin-bottom: 8px; color: #666;">🔐 點數防丟失備份工具</div>
-        <button class="backup-btn" style="background-color: #2ec4b6; margin-bottom: 8px; width: 100%; padding: 8px;" onclick="generateBackup()">🟢 點我生成「點數備份密碼」</button>
-        <div style="display: flex; justify-content: center; align-items: center;">
-            <input type="text" id="backupCode" class="backup-input" placeholder="貼上備份密碼來恢復點數">
-            <button class="backup-btn" onclick="restoreBackup()">還原</button>
+        <div style="font-weight: bold; margin-bottom: 5px; color: #666;">🔐 點數備份密碼工具</div>
+        <button onclick="generateBackup()" style="background: #2ec4b6; color:white; border:none; padding:4px 8px; border-radius:4px; margin-bottom:5px;">生成備份碼</button>
+        <div style="display: flex; justify-content: center; gap:4px;">
+            <input type="text" id="backupCode" placeholder="貼上備份碼" style="width:60%; font-size:11px;">
+            <button onclick="restoreBackup()">還原</button>
+        </div>
+    </div>
+</div>
+
+<div class="bottom-nav">
+    <button class="nav-item" onclick="openModal('modalWeight')"><span>⚖️</span>體重打卡</button>
+    <button class="nav-item" onclick="openModal('modalFood')"><span>📸</span>飲食紀錄</button>
+    <button class="nav-item" onclick="openModal('modalHabit')"><span>✅</span>微習慣</button>
+</div>
+
+<div id="modalWeight" class="modal" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal('modalWeight')">✕</button>
+        <h2>⚖️ 每週體重影像打卡 (+1點)</h2>
+        <div class="weight-card-box">
+            <div class="weight-photo-area" onclick="document.getElementById('weightPhotoInput').click()">
+                <input type="file" id="weightPhotoInput" accept="image/*" style="display:none" onchange="previewWeightPhoto(this)">
+                <div class="upload-placeholder" id="weightPhotoPlaceholder"><span>📸</span>點擊上傳體脂計照片</div>
+                <img id="weightPhotoImg" src="" style="display:none;">
+            </div>
+            <div class="weight-info-area">
+                <div class="date-selectors">
+                    <select id="selectYear"></select><select id="selectMonth"></select><select id="selectDay"></select>
+                </div>
+                <div class="weight-input-row">
+                    <input type="number" step="0.1" id="weightInput" class="weight-input-style" placeholder="輸入體重 (kg)">
+                    <button class="weight-action-btn" onclick="saveWeight()">記錄</button>
+                </div>
+            </div>
+        </div>
+        <div class="weight-log-text" id="weightLogDisplay">尚未記錄體重歷史</div>
+    </div>
+</div>
+
+<div id="modalFood" class="modal" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal('modalFood')">✕</button>
+        <h2>📸 今日飲食打卡記錄 (每張+1點)</h2>
+        <div class="photo-area">
+            <label class="upload-btn">📷 拍攝/上傳今日餐點
+                <input type="file" accept="image/*" style="display:none" onchange="uploadFood(this)">
+            </label>
+            <div class="preview-container" id="photoPreview"></div>
+        </div>
+    </div>
+</div>
+
+<div id="modalHabit" class="modal" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal('modalHabit')">✕</button>
+        <h2>✅ 每日微習慣打卡 (每項+1點)</h2>
+        <div class="input-box">
+            <input type="text" id="customTaskInput" class="input-style" placeholder="➕ 輸入自訂挑戰項目...">
+            <button class="action-btn" onclick="addCustomTask()">新增</button>
+        </div>
+        <div class="challenge-list" id="challengeList">
+            <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">📸 吃飯前有拍照記錄</span></label>
+            <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">🥬 飲食中有吃一樣青菜</span></label>
+            <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">❌ 今天沒有喝含糖飲料</span></label>
+            <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">🐶 帶小狗一起走路運動</span></label>
+            <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">🚧 去現場少搭一層電梯</span></label>
+            <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">🏢 回工務所走樓梯（不搭電梯）</span></label>
+            <label class="challenge-item"><input type="checkbox" class="todo-check" onchange="toggleTask(this)"><div class="custom-checkbox"></div><span class="challenge-text">💧 喝水量達到 2000cc</span></label>
         </div>
     </div>
 </div>
@@ -241,15 +250,8 @@
     let lastWeightDate = localStorage.getItem('weight_loss_last_date') || "";
     let customTasks = JSON.parse(localStorage.getItem('weight_loss_custom_tasks')) || [];
 
-    const normalQuotes = [
-        "不錯喔！今天腳步挺輕盈的嘛！🐾",
-        "哎喲？今天竟然有堅持，太陽打西邊出來了？🧐",
-        "工務所的樓梯都被你踩扁了，繼續保持！🏢",
-        "有動就贏過躺在沙發上的 99% 的人了！🔥",
-        "很好，今天對得起你家小狗了，牠很欣慰。🐶"
-    ];
+    const normalQuotes = ["不錯喔！今天腳步挺輕盈的嘛！🐾","哎喲？今天竟然有堅持！🧐","工務所的樓梯都被你踩扁了，繼續保持！🏢","有動就贏過躺著的人了！🔥","很好，今天對得起你家小狗了。🐶"];
     const foodQuotes = ["📸 拍了照就要對食物負責啊！", "青菜吃進去，健康帶得走！🥬", "沒喝飲料？省下大卡又省錢！💰"];
-    const weightQuotes = ["⚖️ 敢面對體重就是勇士！加1點！", "⚖️ 穩定記錄，你正在重新掌握自己的身材！"];
 
     function init() {
         populateDateDropdowns();
@@ -265,35 +267,24 @@
         }
     }
 
-    function populateDateDropdowns() {
-        const yearSelect = document.getElementById('selectYear');
-        const monthSelect = document.getElementById('selectMonth');
-        const daySelect = document.getElementById('selectDay');
-        const now = new Date();
-        const currentYear = now.getFullYear();
-        const currentMonth = now.getMonth() + 1;
-        const currentDay = now.getDate();
+    /* 彈出視窗開關控制 */
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function closeModalOnBackdrop(e) { if(e.target.classList.contains('modal')) e.target.style.display = 'none'; }
 
-        for(let i = currentYear - 1; i <= currentYear + 1; i++) {
-            let opt = document.createElement('option'); opt.value = i; opt.innerText = i + " 年";
-            if(i === currentYear) opt.selected = true; yearSelect.appendChild(opt);
-        }
-        for(let i = 1; i <= 12; i++) {
-            let opt = document.createElement('option'); opt.value = i; opt.innerText = i + " 月";
-            if(i === currentMonth) opt.selected = true; monthSelect.appendChild(opt);
-        }
-        for(let i = 1; i <= 31; i++) {
-            let opt = document.createElement('option'); opt.value = i; opt.innerText = i + " 日";
-            if(i === currentDay) opt.selected = true; daySelect.appendChild(opt);
-        }
+    function populateDateDropdowns() {
+        const yearSelect = document.getElementById('selectYear'); const monthSelect = document.getElementById('selectMonth'); const daySelect = document.getElementById('selectDay');
+        const now = new Date(); const currentYear = now.getFullYear(); const currentMonth = now.getMonth() + 1; const currentDay = now.getDate();
+        for(let i = currentYear - 1; i <= currentYear + 1; i++) { let opt = document.createElement('option'); opt.value = i; opt.innerText = i + " 年"; if(i === currentYear) opt.selected = true; yearSelect.appendChild(opt); }
+        for(let i = 1; i <= 12; i++) { let opt = document.createElement('option'); opt.value = i; opt.innerText = i + " 月"; if(i === currentMonth) opt.selected = true; monthSelect.appendChild(opt); }
+        for(let i = 1; i <= 31; i++) { let opt = document.createElement('option'); opt.value = i; opt.innerText = i + " 日"; if(i === currentDay) opt.selected = true; daySelect.appendChild(opt); }
     }
 
     function previewWeightPhoto(input) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                const img = document.getElementById('weightPhotoImg');
-                img.src = e.target.result; img.style.display = 'block';
+                const img = document.getElementById('weightPhotoImg'); img.src = e.target.result; img.style.display = 'block';
                 document.getElementById('weightPhotoPlaceholder').style.display = 'none';
                 localStorage.setItem('weight_loss_last_photo', e.target.result);
             };
@@ -304,31 +295,22 @@
     function saveWeight() {
         const weightVal = document.getElementById('weightInput').value.trim();
         if (!weightVal || isNaN(weightVal)) { alert("請輸入正確的體重數字喔！"); return; }
-        
-        const y = document.getElementById('selectYear').value;
-        const m = document.getElementById('selectMonth').value;
-        const d = document.getElementById('selectDay').value;
-        
+        const y = document.getElementById('selectYear').value; const m = document.getElementById('selectMonth').value; const d = document.getElementById('selectDay').value;
         lastWeight = weightVal; lastWeightDate = `${y}/${m}/${d}`;
-        localStorage.setItem('weight_loss_last_weight', lastWeight);
-        localStorage.setItem('weight_loss_last_date', lastWeightDate);
-        
+        localStorage.setItem('weight_loss_last_weight', lastWeight); localStorage.setItem('weight_loss_last_date', lastWeightDate);
         document.getElementById('weightLogDisplay').innerText = `歷史紀錄：${lastWeight} kg (${lastWeightDate})`;
         document.getElementById('weightInput').value = "";
-        points += 1; updateUI();
-        const randomWeightQuote = weightQuotes[Math.floor(Math.random() * weightQuotes.length)];
-        checkMilestone(points, `✨ 體重打卡成功！獲得 1 點！\n\n「${randomWeightQuote}」`);
+        points += 1; updateUI(); closeModal('modalWeight');
+        setTimeout(() => { checkMilestone(points, `⚖️ 體重打卡成功！已連動集點卡，獲得 1 點！`); }, 300);
     }
 
     function renderGrid() {
         const grid = document.getElementById('stampGrid'); grid.innerHTML = '';
-        let currentCardPoints = points % 30;
-        if (currentCardPoints === 0 && points > 0) currentCardPoints = 30;
+        let currentCardPoints = points % 30; if (currentCardPoints === 0 && points > 0) currentCardPoints = 30;
         for (let i = 1; i <= 30; i++) {
             const slot = document.createElement('div'); slot.classList.add('point-slot');
             if (points > 0 && i <= currentCardPoints) { slot.classList.add('active'); slot.innerText = '⭐'; } 
-            else { slot.innerText = i; }
-            grid.appendChild(slot);
+            else { slot.innerText = i; } grid.appendChild(slot);
         }
     }
 
@@ -342,26 +324,19 @@
     }
 
     function addCustomTask() {
-        const taskText = document.getElementById('customTaskInput').value.trim();
-        if(!taskText) return;
+        const taskText = document.getElementById('customTaskInput').value.trim(); if(!taskText) return;
         customTasks.push({ text: taskText, checked: false });
         localStorage.setItem('weight_loss_custom_tasks', JSON.stringify(customTasks));
-        renderCustomTasks();
-        document.getElementById('customTaskInput').value = "";
+        renderCustomTasks(); document.getElementById('customTaskInput').value = "";
     }
 
     function renderCustomTasks() {
-        const list = document.getElementById('challengeList');
-        const items = list.querySelectorAll('.custom-added-task');
+        const list = document.getElementById('challengeList'); const items = list.querySelectorAll('.custom-added-task');
         items.forEach(el => el.remove());
         customTasks.forEach((task, index) => {
-            const label = document.createElement('label');
-            label.classList.add('challenge-item', 'custom-added-task');
+            const label = document.createElement('label'); label.classList.add('challenge-item', 'custom-added-task');
             if(task.checked) label.classList.add('checked');
-            label.innerHTML = `
-                <input type="checkbox" class="todo-check" ${task.checked ? 'checked' : ''} onchange="toggleCustomTask(${index}, this)">
-                <div class="custom-checkbox"></div><span class="challenge-text">✨ ${task.text}</span>
-            `;
+            label.innerHTML = `<input type="checkbox" class="todo-check" ${task.checked ? 'checked' : ''} onchange="toggleCustomTask(${index}, this)"><div class="custom-checkbox"></div><span class="challenge-text">✨ ${task.text}</span>`;
             list.appendChild(label);
         });
     }
@@ -370,26 +345,19 @@
         customTasks[index].checked = checkbox.checked;
         localStorage.setItem('weight_loss_custom_tasks', JSON.stringify(customTasks));
         if (checkbox.checked) {
-            checkbox.closest('.challenge-item').classList.add('checked');
-            points += 1; updateUI();
+            checkbox.closest('.challenge-item').classList.add('checked'); points += 1; updateUI(); closeModal('modalHabit');
             const randomQuote = normalQuotes[Math.floor(Math.random() * normalQuotes.length)];
-            checkMilestone(points, `✨ 打卡成功！\n\n「${randomQuote}」`);
-        } else {
-            checkbox.closest('.challenge-item').classList.remove('checked');
-            points = Math.max(0, points - 1); updateUI();
-        }
+            setTimeout(() => { checkMilestone(points, `✨ 習慣打卡成功！已連動集點卡！\n\n「${randomQuote}」`); }, 300);
+        } else { checkbox.closest('.challenge-item').classList.remove('checked'); points = Math.max(0, points - 1); updateUI(); }
     }
 
     function toggleTask(checkbox) {
         const item = checkbox.closest('.challenge-item');
         if (checkbox.checked) {
-            item.classList.add('checked'); points += 1; updateUI();
+            item.classList.add('checked'); points += 1; updateUI(); closeModal('modalHabit');
             const randomQuote = normalQuotes[Math.floor(Math.random() * normalQuotes.length)];
-            checkMilestone(points, `✨ 打卡成功！\n\n「${randomQuote}」`);
-        } else {
-            item.closest('.challenge-item').classList.remove('checked');
-            points = Math.max(0, points - 1); updateUI();
-        }
+            setTimeout(() => { checkMilestone(points, `✨ 打卡成功！已連動集點卡！\n\n「${randomQuote}」`); }, 300);
+        } else { item.closest('.challenge-item').classList.remove('checked'); points = Math.max(0, points - 1); updateUI(); }
     }
 
     function uploadFood(input) {
@@ -398,31 +366,27 @@
             reader.onload = function(e) {
                 const img = document.createElement('img'); img.src = e.target.result; img.classList.add('preview-img');
                 document.getElementById('photoPreview').appendChild(img);
-                points += 1; updateUI();
+                points += 1; updateUI(); closeModal('modalFood');
                 const randomFoodQuote = foodQuotes[Math.floor(Math.random() * foodQuotes.length)];
-                checkMilestone(points, `📸 飲食打卡成功！獲得 1 點！\n\n「${randomFoodQuote}」`);
+                setTimeout(() => { checkMilestone(points, `📸 飲食打卡成功！已連動集點卡！\n\n「${randomFoodQuote}」`); }, 300);
             };
             reader.readAsDataURL(input.files[0]);
         }
     }
 
     function checkMilestone(currentPoints, defaultMessage) {
-        if (currentPoints === 10) { alert(`🎉【10 點里程碑！】\n\n冰棒在向你招手了！🍦`); } 
-        else if (currentPoints === 20) { alert(`🔥【20 點大進展！】\n\n手搖飲給我撐住，去拿大餐！🍹`); } 
-        else if (currentPoints === 30) { alert(`👑【30 點終極達陣！】\n\n大餐在等你了！🥩🔥`); } 
+        if (currentPoints === 10) { alert(`🎉【10 點里程碑！】\n\n主頁的冰棒兌換按鈕解鎖囉！🍦`); } 
+        else if (currentPoints === 20) { alert(`🔥【20 點大進展！】\n\n快樂手搖飲在等你兌換了！🍹`); } 
+        else if (currentPoints === 30) { alert(`👑【30 點終極達陣！】\n\n大餐按鈕亮起，衝啊！🥩🔥`); } 
         else { alert(defaultMessage); }
     }
 
     function redeem(cost, prizeName) {
-        if (points >= cost) {
-            if (confirm(`確定要消耗 ${cost} 點兌換【${prizeName}】嗎？`)) {
-                points -= cost; alert(`🎉 兌換成功！`); updateUI();
-            }
-        }
+        if (points >= cost) { if (confirm(`確定要消耗 ${cost} 點兌換【${prizeName}】嗎？`)) { points -= cost; alert(`🎉 兌換成功！集點卡已扣除點數。`); updateUI(); } }
     }
 
     function resetNewDay() {
-        if (confirm('要開啟新的一天嗎？(會清空今日勾選、照片，保留集點與體重)')) {
+        if (confirm('要開啟新的一天嗎？(會清空彈出視窗內的今日勾選與飲食照片，保留集點與體重)')) {
             const checkboxes = document.querySelectorAll('.todo-check');
             checkboxes.forEach(box => { box.checked = false; box.closest('.challenge-item').classList.remove('checked'); });
             document.getElementById('photoPreview').innerHTML = '';
